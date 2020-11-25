@@ -449,16 +449,57 @@ namespace UnitTest
 
 
         #region Pole, Objêtoœæ ===================================
+       [DataTestMethod, TestCategory("Pole i Objętość")]
+       [DataRow (2.2, 2.3, 2.4, 12.144)]
+       [DataRow(1.001, 2.222, 3.033, 6.746065326)]
+       [DataRow(0.001, 0.002, 0.003, 0.000000006)]
+       [DataRow(2, 3, 4, 24)]
 
-        //#endregion
+       public void Objetosc_GetObjetosc(double a, double b, double c, double excepted)
+        {
+            var Pudelko = new Pudelko(a, b, c);
+            Assert.AreEqual(excepted, Pudelko.Objetosc);
+        }
 
-        //#region Equals ===========================================
-        //// ToDo
-        //#endregion
+        [TestMethod, TestCategory("Pole i Objętość")]
+        [DataRow(0.01, 0.02, 0.03, 0.0022)]
+        [DataRow(1.111, 2.222, 3.333, 27.155062)]
+        [DataRow(0.001, 0.002, 0.003, 0.000022)]
+        [DataRow(2, 3, 4, 52)]
+        public void Pole_GetPole(double a, double b, double c, double excepted)
+        {
+            var Pudelko = new Pudelko(a, b, c);
+            Assert.AreEqual(excepted, Pudelko.Pole);
+        }
+        #endregion
+
+        #region Equals ===========================================
+        [DataTestMethod, TestCategory("Equals")]
+        [DataRow(1.2, 1.2, 2.4, 2.4, 3.6, 3.6)]
+        [DataRow(4, 5, 5, 3, 3, 4)]
+        public void Equals_GetTrue(double a1, double a2, double b1, double b2, double c1, double c2)
+        {
+            var p1 = new Pudelko(a1, b1, c1);
+            var p2 = new Pudelko(a2, b2, c2);
+
+            Assert.IsTrue(p1.Equals(p2));
+        }
+
+        [DataTestMethod]
+        [DataRow(6, 2, 4, 3, 6, 3, false)]
+        [DataRow(1, 1, 6, 3, 1, 1, false)]
+        public void Equals_GetFalse(double a1, double a2, double b1, double b2, double c1, double c2, bool expectedResult)
+        {
+            var p1 = new Pudelko(a1, b1, c1);
+            var p2 = new Pudelko(a2, b2, c2);
+
+            Assert.AreEqual(expectedResult, p1.Equals(p2));
+        }
+        #endregion
 
         //#region Operators overloading ===========================
         //// ToDo
-        #endregion
+        //#endregion
 
         #region Conversions =====================================
         //[TestMethod]

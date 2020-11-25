@@ -10,7 +10,7 @@ namespace PudelkoLibrary
         meter = 1
     }
 
-    public sealed class Pudelko : IFormattable  //zapieczętowanie klasy za pomocą sealed
+    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>  //zapieczętowanie klasy za pomocą sealed
     {
         public  double a { get; }
         public  double b { get;  }
@@ -106,5 +106,40 @@ namespace PudelkoLibrary
             //Property pole i objetosc
         public double Objetosc { get => Math.Round( A * B * C, 9); }
         public double Pole { get => Math.Round(2 * A * B + 2 * A * C + 2 * B * C, 6); }
+
+        public bool Equals(Pudelko other)
+        {
+            if (other is null) return false;
+            if (Object.ReferenceEquals(this, other)) //other i this są referencjami do tego samego obiektu
+                return true;
+
+            return (Pole == other.Pole && Objetosc == other.Objetosc);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Pudelko)
+                return Equals((Pudelko)obj);
+            else
+                return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return A.GetHashCode() + B.GetHashCode() + C.GetHashCode();
+        }
+        //public override int GetHashCode() => (A, B, C).GetHashCode();
+
+        public static bool Equals(Pudelko p1, Pudelko p2)
+        {
+            if ((p1 is null) && (p2 is null)) return true;
+            if (p1 is null) return false;
+
+            return p1.Equals(p2);
+        }
+
+        //Przeciązenie operatora == and !=
+        public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
+        public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
     }
 }
