@@ -15,7 +15,7 @@ namespace PudelkoApp
             Console.WriteLine(pudelko.ToString("m"));
             Console.WriteLine(pudelko.ToString("cm"));
             Console.WriteLine(pudelko.ToString("mm"));
-            
+            Console.WriteLine(p2[1]);
 
 
 

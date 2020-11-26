@@ -12,9 +12,9 @@ namespace PudelkoLibrary
 
     public sealed class Pudelko : IFormattable, IEquatable<Pudelko>  //zapieczętowanie klasy za pomocą sealed
     {
-        public  double a { get; }
-        public  double b { get;  }
-        public  double c { get;  }
+        public double a { get; }
+        public double b { get; }
+        public double c { get; }
 
         public double Am { get => this.a; }
         public double Bm { get => this.b; }
@@ -31,17 +31,17 @@ namespace PudelkoLibrary
         public double A
         {
             get => this.Am;
-            
+
         }
         public double B
         {
             get => this.Bm;
-           
+
         }
         public double C
         {
             get => this.Cm;
-            
+
         }
 
         private double SetVal(double value)
@@ -70,9 +70,9 @@ namespace PudelkoLibrary
         public Pudelko(double? a = null, double? b = null, double? c = null, UnitOfMeasure unit = UnitOfMeasure.meter)
         {
             this.Unit = unit;
-            this.a = (a != null) ? SetVal ((double)a) : 0.1;
-            this.b = (b != null) ? SetVal ((double)b) : 0.1;
-            this.c = (c != null) ? SetVal ((double)c) : 0.1;
+            this.a = (a != null) ? SetVal((double)a) : 0.1;
+            this.b = (b != null) ? SetVal((double)b) : 0.1;
+            this.c = (c != null) ? SetVal((double)c) : 0.1;
         }
 
         public override string ToString()
@@ -103,8 +103,8 @@ namespace PudelkoLibrary
                     throw new FormatException("wrong code");
             }
         }
-            //Property pole i objetosc
-        public double Objetosc { get => Math.Round( A * B * C, 9); }
+        //Property pole i objetosc
+        public double Objetosc { get => Math.Round(A * B * C, 9); }
         public double Pole { get => Math.Round(2 * A * B + 2 * A * C + 2 * B * C, 6); }
 
         public bool Equals(Pudelko other)
@@ -141,5 +141,44 @@ namespace PudelkoLibrary
         //Przeciązenie operatora == and !=
         public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
+
+        // Operator + (nie jet to pudelko o najmniejszej objetosci
+        public static Pudelko operator +(Pudelko p1, Pudelko p2)
+        {
+            Pudelko pudelko = new Pudelko(
+                p1.A + p2.A,
+                p1.B + p2.B,
+                p1.C + p2.C);
+            return pudelko;
+        }
+
+        // Explicit oraz implicit
+        public static explicit operator double[](Pudelko p) => new double [] { p.A, p.B, p.C };
+        public static implicit operator Pudelko(ValueTuple<int,int,int> p) => new Pudelko(p.Item1, p.Item2, p.Item3, UnitOfMeasure.milimeter);
+
+       //Indexer
+        public double this[int index]
+        {
+            get
+            {
+                if (index == 0)
+                {
+                    return A;
+                }
+                else if (index == 1)
+                {
+                    return B;
+                }
+                else if (index == 2)
+                {
+                    return C;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
     }
 }
